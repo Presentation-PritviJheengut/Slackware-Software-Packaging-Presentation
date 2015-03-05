@@ -1,0 +1,151 @@
+\documentclass[12pt]{beamer}
+
+\usetheme{Air}
+\usepackage{thumbpdf}
+\usepackage{wasysym}
+\usepackage{ucs}
+\usepackage[utf8]{inputenc}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{verbatim}
+
+\usepackage[size=a4]{beamerposter}
+
+\pdfinfo
+{
+  /Title       (Slackware Software Packaging: A How To)
+  /Creator     (Pritvi Jheengut)
+  /Author      (Pritvi Jheengut)
+}
+
+
+\title{Slackware Software Packaging: How and Where To Start}
+\subtitle{How many of you are aware of the steps in creating Slackware packages}
+\author{Pritvi Jheengut}
+\date{13 March 2015}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section*{tableofcontent}
+
+\begin{frame}
+  \frametitle{Outline}
+    \tableofcontents[hidesubsections]
+\end{frame}
+
+\AtBeginSection[]
+{
+  \frame<handout:0>
+  {
+    \frametitle{Outline}
+    \tableofcontents[currentsection,hideallsubsections]
+  }
+}
+
+\AtBeginSubsection[]
+{
+  \frame<handout:0>
+  {
+    \frametitle{Outline}
+    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+  }
+}
+
+\newcommand<>{\highlighton}[1]{%
+  \alt#2{\structure{#1}}{{#1}}
+}
+
+\newcommand{\icon}[1]{\pgfimage[height=1em]{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Content starts here %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section{Introduction}
+
+\begin{frame}
+  \frametitle{Prerequisites}
+  \framesubtitle{The Shell and Coreutils}
+  \begin{block}{Shell}
+  \begin{itemize}
+    \item Some basic shell programming skills 
+    \item GNU Coreutils
+  \end{itemize}
+  \end{block}
+  
+  \begin{example}{GNU Coreutils}
+  \begin{itemize}
+    \item mkdir
+    \item cat
+    \item ls
+  \end{itemize}
+  \end{example}
+\end{frame}
+  
+\begin{frame}
+  \frametitle{Prerequisites}
+  \framesubtitle{Slackware Basic tools}
+  \begin{block}{Slackware}
+  \begin{itemize}
+    \item<1-> pkgtool
+    \item<2-> installpkg
+    \item<3-> removepkg
+    \item<4-> upgradepkg
+    \item<5-> explodepkg
+    \item<6-> makepkg
+    \item<7-> slackbuild scripting
+  \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Prerequisites}
+  \framesubtitle{A Slacker's goal to world domination}
+  \begin{block}{Goal}
+  \begin{itemize}
+    \item Learn slacking the hard way
+    \item sip some beer
+    \item Take over the world
+    \item Relax...
+  \end{itemize}
+  \end{block}
+\end{frame}
+
+
+
+
+\begin{frame}
+  \frametitle{Resources}
+  \framesubtitle{If you want to improve this style}
+  \begin{thebibliography}{10}
+
+  \beamertemplatearticlebibitems
+
+  \bibitem{beamer-homepage}
+    LaTeX Beamer
+    \newblock {\tt http://latex-beamer.sourceforge.net/}
+
+  \bibitem{kdeslides}
+    KDE Presentations
+    \newblock {\tt http://www.kde.org/kdeslides/}
+
+  \end{thebibliography}
+\end{frame}
+
+
+\frame{
+  \vspace{2cm}
+  {\huge Questions ?}
+
+  \vspace{3cm}
+  \begin{flushright}
+    Pritvi Jheengut
+
+    \structure{\footnotesize{z.coldplayer@gmail.com}}
+  \end{flushright}
+}
+
+\end{document}
