@@ -27,22 +27,18 @@
 
 \begin{frame}
   \frametitle{Outline}
-    \tableofcontents[hidesubsections]
+  \tableofcontents[hidesubsections]
 \end{frame}
 
-\AtBeginSection[]
-{
-  \frame<handout:0>
-  {
+\AtBeginSection[]{
+  \frame<handout:0>{
     \frametitle{Outline}
     \tableofcontents[currentsection,hideallsubsections]
   }
 }
 
-\AtBeginSubsection[]
-{
-  \frame<handout:0>
-  {
+\AtBeginSubsection[]{
+  \frame<handout:0>{
     \frametitle{Outline}
     \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
   }
@@ -64,18 +60,18 @@
   \frametitle{Prerequisites}
   \framesubtitle{The Shell and Coreutils}
   \begin{block}{Shell}
-  \begin{itemize}
+    \begin{itemize}
     \item Some basic shell programming skills 
     \item GNU Coreutils
-  \end{itemize}
+    \end{itemize}
   \end{block}
   
   \begin{example}{GNU Coreutils}
-  \begin{itemize}
+    \begin{itemize}
     \item mkdir
     \item cat
     \item ls
-  \end{itemize}
+    \end{itemize}
   \end{example}
 \end{frame}
 
@@ -83,12 +79,12 @@
   \frametitle{Prerequisites}
   \framesubtitle{Packaging tools}
   \begin{block}{Unix}
-  \begin{itemize}
+    \begin{itemize}
     \item<1-> tar
     \item<2-> install
     \item<3-> cp/mv
     \item<4-> chmod/chown
-  \end{itemize}
+    \end{itemize}
   \end{block}
 \end{frame}
 
@@ -96,10 +92,10 @@
   \frametitle{Prerequisites}
   \framesubtitle{Compression Utilities}
   \begin{description}
-    \item[mime]   Compression Utility
-    \item<2->[tgz]    gzip
-    \item<3->[tbz]    bzip2
-    \item<4->[txz]    xz/lzma
+  \item[mime]   Compression Utility
+  \item<2->[tgz]    gzip
+  \item<3->[tbz]    bzip2
+  \item<4->[txz]    xz/lzma
   \end{description}
 \end{frame}
 
@@ -107,7 +103,7 @@
   \frametitle{Prerequisites}
   \framesubtitle{Slackware Basic tools}
   \begin{block}{Slackware}
-  \begin{itemize}
+    \begin{itemize}
     \item<1-> pkgtool - The Package Manager
     \item<2>  \url{http://tukaani.org/pkgtools/} an old forked version
     \item<3-> installpkg
@@ -116,7 +112,7 @@
     \item<6-> explodepkg
     \item<7-> makepkg - The Package Creator/Maker
     \item<8-> slackbuild scripting
-  \end{itemize}
+    \end{itemize}
   \end{block}
 \end{frame}
 
@@ -126,18 +122,18 @@
   \frametitle{Definition of a package}
   \framesubtitle{A Slacker's goal to world domination}
   \begin{block}{A Package}
-   \begin{description}
+    \begin{description}
     \item[Definition:] An archive format with/out instructions used for the
       installation of files on a system
-  \end{description}
+    \end{description}
   \end{block}
-
+  
   \begin{block}{Example}
-  \begin{itemize}
+    \begin{itemize}
     \item t?z
     \item deb
     \item rpm
-  \end{itemize}
+    \end{itemize}
   \end{block}
 \end{frame}
 
@@ -148,16 +144,18 @@
   \framesubtitle{Sanitize The Build Directory}
   \lstset{language=sh}
   \begin{lstlisting}
-  mktmp
-  cd /tmp/$"The Temporary File Just Created"
+    mktmp
+    cd /tmp/$"The Temporary File Just Created"
   \end{lstlisting}
   
   \begin{alertblock}{\href{http://unixhelp.ed.ac.uk/CGI/man-cgi?mktemp}{mktmp}}
-  Create temporary files/directoies that are predictable, safe and to avoid possible race conditions.
+    Create temporary files/directoies that are predictable, safe and to avoid
+    possible race conditions.
   \end{alertblock}
   
-   \begin{alertblock}{/tmp}
-   The /tmp directory is assumed to cleaned regularly, sometimes assumed a tmpfs is mount over tmp
+  \begin{alertblock}{/tmp}
+    The /tmp directory is assumed to cleaned regularly, sometimes assumed a
+    tmpfs is mount over tmp
   \end{alertblock}
 \end{frame}
 
@@ -165,16 +163,16 @@
   \frametitle{Prepare The Build Directory}
   \framesubtitle{Populating The Build Directory}
   \lstset{language=sh}
-    \begin{alertblock}{Dump The Source Code}
-      copy the source code archive into the tmp dir 
-      afterwards extract files into the `mktmp` directory
+  \begin{alertblock}{Dump The Source Code}
+    copy the source code archive into the tmp dir 
+    afterwards extract files into the `mktmp` directory
   \end{alertblock}
   
   \begin{lstlisting}
     cp ${old path}/${source code archive} .
     OR
     wget/curl protocol://url/
-        ${source code archive}
+    ${source code archive}
     mkdir build
     cd build
     tar -xvvf ../"${source code archive}"
@@ -182,14 +180,12 @@
   \end{lstlisting}
 \end{frame}
 
-
-
 \begin{frame}
   \begin{example}
-  \begin{itemize}
+    \begin{itemize}
     \item 
     \item 
-  \end{itemize}
+    \end{itemize}
   \end{example}
 \end{frame}
 
@@ -199,47 +195,42 @@
   \frametitle{Goal}
   \framesubtitle{A Slacker's goal to world domination}
   \begin{block}{Goal}
-  \begin{itemize}
+    \begin{itemize}
     \item slack the hard way
     \item sip some beer
     \item Take over the world
     \item Relax...
-  \end{itemize}
+    \end{itemize}
   \end{block}
 \end{frame}
- 
  
 \begin{frame}
   \frametitle{Resources}
   \framesubtitle{If you want to improve this style}
   \begin{thebibliography}{10}
-
-  \beamertemplatearticlebibitems
-
+    \beamertemplatearticlebibitems
+  
   \bibitem{beamer-homepage}
     LaTeX Beamer
     \newblock {\tt http://latex-beamer.sourceforge.net/}
-
+    
   \bibitem{kdeslides}
     KDE Presentations
     \newblock {\tt http://www.kde.org/kdeslides/}
-
+    
   \end{thebibliography}
 \end{frame}
 
-
 \frame{
   \vspace{2cm}
-  {\huge Questions ?}
-
-  \vspace{3cm}
-  \begin{flushright}
-    Pritvi Jheengut
-
-    \structure{\footnotesize{z.coldplayer@gmail.com}}
-  \end{flushright}
+         {\huge Questions ?}
+         
+         \vspace{3cm}
+         \begin{flushright}
+           Pritvi Jheengut
+           
+           \structure{\footnotesize{z.coldplayer@gmail.com}}
+         \end{flushright}
 }
 
 \end{document}
-
-
