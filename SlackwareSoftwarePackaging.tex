@@ -1,9 +1,9 @@
 \documentclass[12pt,hyperref={pdfpagelabels=true}]{beamer}
 
-\usetheme{Air}
 \usepackage[utf8]{inputenc}
 \usepackage{pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
 \usepackage{listings}
+\usepackage[all]{xy}
 
 %\pdfinfo
 %{
@@ -17,6 +17,10 @@
 \author{Pritvi Jheengut}
 \date{13 March 2015}
 
+\usetheme{Air}
+\definecolor{lavender}{rgb}{0.9, 0.9, 0.98}
+\setbeamercolor{background canvas}{bg=lavender}
+
 \mode<presentation>{}
 
 \begin{document}
@@ -27,6 +31,7 @@
 
 \begin{frame}
   \frametitle{Outline}
+  \framesubtitle{Table of Contents}
   \tableofcontents[hidesubsections]
 \end{frame}
 
@@ -60,14 +65,16 @@
   \frametitle{Prerequisites}
   \framesubtitle{The Shell and Coreutils}
   \begin{block}{Shell}
-    \begin{itemize}
-    \item Some basic shell programming skills 
+    \begin{itemize}[<+-| alert@+>]
+    \item Some basic shell programming skills
     \item GNU Coreutils
     \end{itemize}
   \end{block}
-  
+
+  \pause
+
   \begin{example}{GNU Coreutils}
-    \begin{itemize}
+    \begin{itemize}[<+-| alert@+>]
     \item mkdir
     \item cat
     \item ls
@@ -79,11 +86,14 @@
   \frametitle{Prerequisites}
   \framesubtitle{Packaging tools}
   \begin{block}{Unix}
-    \begin{itemize}
-    \item<1-> tar
-    \item<2-> install
-    \item<3-> cp/mv
-    \item<4-> chmod/chown
+    \begin{itemize}[<+-| alert@+>]
+    \item tar
+    \item cp/mv/install
+    \item find
+    \item chmod/chown
+    \item mktemp/mkdir
+    \item strip
+    \item make
     \end{itemize}
   \end{block}
 \end{frame}
@@ -91,26 +101,41 @@
 \begin{frame}
   \frametitle{Prerequisites}
   \framesubtitle{Compression Utilities}
-  \begin{description}
-  \item[mime]   Compression Utility
-  \item<2->[tgz]    gzip
-  \item<3->[tbz]    bzip2
-  \item<4->[txz]    xz/lzma
-  \end{description}
+  \begin{columns}
+    \begin{column}{4cm}
+      \begin{block}{Compression Utility}
+        \begin{description}
+        \item<1-> gzip
+        \item<2-> bzip2
+        \item<3-> xz/lzma
+        \end{description}
+      \end{block}
+    \end{column}
+
+    \begin{column}{4cm}
+      \begin{block}{mime}
+        \begin{itemize}
+        \item<1-> tgz
+        \item<2-> tbz
+        \item<3-> txz
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
   \frametitle{Prerequisites}
   \framesubtitle{Slackware Basic tools}
   \begin{block}{Slackware}
-    \begin{itemize}
-    \item<1-> pkgtool - The Package Manager
+    \begin{itemize}[<+-| alert@+>]
+    \item<1-7> pkgtool - The Package Manager
     \item<2>  \url{http://tukaani.org/pkgtools/} an old forked version
-    \item<3-> installpkg
-    \item<4-> removepkg
-    \item<5-> upgradepkg
-    \item<6-> explodepkg
-    \item<7-> makepkg - The Package Creator/Maker
+    \item<3-7> installpkg
+    \item<4-7> removepkg
+    \item<5-7> upgradepkg
+    \item<6-7> explodepkg
+    \item<7-7> makepkg - The Package Creator/Maker
     \item<8-> slackbuild scripting
     \end{itemize}
   \end{block}
@@ -127,13 +152,49 @@
       installation of files on a system
     \end{description}
   \end{block}
-  
-  \begin{block}{Example}
-    \begin{itemize}
-    \item t?z
-    \item deb
-    \item rpm
+
+  \pause
+
+  \begin{columns}
+    \begin{column}{4cm}
+      \begin{block}{Example}
+        \begin{itemize}[<+-| alert@+>]
+        \item<2-> t?z
+        \item<3-> deb
+        \item<4-> rpm
+        \end{itemize}
+      \end{block}
+    \end{column}
+
+    \begin{column}{4cm}
+      \begin{block}{mime}
+        \begin{itemize}[<+-| alert@+>]
+        \item<2-> Slackware
+        \item<3-> Debian
+        \item<4-> Red Hat
+        \item<4-> OpenSUSE
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Package Manager}
+  \framesubtitle{How to install Packages}
+  \begin{block}{Package Manager}
+    A package manager is a collection of software tools that
+    \begin{itemize}[<+-| alert@+>]
+    \item<2,7>install
+    \item<3,7> upgrade
+    \item<4,7> configure
+    \item<5,7> remove
+    \item<6,7> performs other related jobs
     \end{itemize}
+
+    \pause
+
+    on software packages for a Linux Distribution.
   \end{block}
 \end{frame}
 
@@ -147,12 +208,16 @@
     mktmp
     cd /tmp/$"The Temporary File Just Created"
   \end{lstlisting}
-  
+
+  \pause
+
   \begin{alertblock}{\href{http://unixhelp.ed.ac.uk/CGI/man-cgi?mktemp}{mktmp}}
     Create temporary files/directoies that are predictable, safe and to avoid
     possible race conditions.
   \end{alertblock}
-  
+
+  \pause
+
   \begin{alertblock}{/tmp}
     The /tmp directory is assumed to cleaned regularly, sometimes assumed a
     tmpfs is mount over tmp
@@ -161,32 +226,322 @@
 
 \begin{frame}[fragile]
   \frametitle{Prepare The Build Directory}
-  \framesubtitle{Populating The Build Directory}
+  \framesubtitle{Putting The Source Code in /tmp}
   \lstset{language=sh}
-  \begin{alertblock}{Dump The Source Code}
-    copy the source code archive into the tmp dir 
-    afterwards extract files into the `mktmp` directory
-  \end{alertblock}
-  
+  \begin{block}{Copy The Source Code}
+    Copy the source code archive into the tmp dir
+  \end{block}
+
+  \pause
+
   \begin{lstlisting}
     cp ${old path}/${source code archive} .
-    OR
-    wget/curl protocol://url/
-    ${source code archive}
+  \end{lstlisting}
+
+  \pause
+
+  \begin{block}{Download The Source Code}
+    Or Download the source code archive into the tmp dir
+  \end{block}
+
+  \pause
+
+  \begin{lstlisting}
+    wget/curl
+    protocol://url/${source code archive}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Populating The Build Directory}
+  \framesubtitle{Extracting the source code into The Build Directory}
+  \lstset{language=sh}
+
+  \pause
+
+  \begin{alertblock}{Extracting The Source Code}
+    This step is optional
+  \end{alertblock}
+
+  \pause
+
+  \begin{lstlisting}
     mkdir build
     cd build
+  \end{lstlisting}
+
+  \pause
+
+  \begin{block}{Extracting The Source Code}
+    Extract files into the `mktmp`/tmp directory
+  \end{block}
+
+  \pause
+
+  \begin{lstlisting}
     tar -xvvf ../"${source code archive}"
-    unzip ../"${source code archive}"
+  \end{lstlisting}
+\end{frame}
+
+\section{Building The Source Code}
+
+\begin{frame}
+  \frametitle{Configuration of the source code}
+  \framesubtitle{Pre-Configuration and Configuration}
+  \begin{columns}
+    \begin{column}{5cm}
+      \begin{block}{pre-configuration}
+        Rarely is pre-configuration performed.
+      \end{block}
+    \end{column}
+
+    \begin{column}{5cm}
+      \begin{block}{configuration}
+        Most of the times configuration is needed.
+      \end{block}
+    \end{column}
+  \end{columns}
+
+  \pause
+
+  \begin{columns}
+    \begin{column}{5cm}
+      \begin{example}{autotools}
+        \begin{itemize}[<+-| alert@+>]
+        \item aclocal
+        \item autoconf
+        \item automake
+        \end{itemize}
+      \end{example}
+    \end{column}
+
+    \begin{column}{5cm}
+      \begin{example}
+        \begin{itemize}[<+-| alert@+>]
+        \item ./configure
+        \item cmake
+        \item python setup.py
+        \item gem
+        \item qmake
+        \end{itemize}
+      \end{example}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Building the Source Code}
+%   \framesubtitle{}
+  \begin{block}{Building the Source Code}
+    After configuration, the code has to be compiled into machine code.
+  \end{block}
+
+  \pause
+
+  \begin{example}
+    \begin{itemize}[<+-| alert@+>]
+    \item make
+    \item perl Makefile.pl
+    \item gem
+    \item python setup.py build
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Building the Source Code}
+  \framesubtitle{Summary}
+  \begin{block}{A Summary}
+      A summary of the job done
+  \end{block}
+  \begin{equation*}
+    \xymatrix@C=2pc@R=2pc{
+    Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] & Building}
+  \end{equation*}
+\end{frame}
+
+\section{Creating The Package}
+
+\begin{frame}[fragile]
+  \frametitle{The Creation of a Package}
+  \framesubtitle{Populating the package directory}
+  \begin{block}{Installation of Package Files in tmp directory}
+    The package files are installed in a directory using the
+    $PKG=\$TMP/package-\$PRGNAM$ shell path parameter.
+  \end{block}
+  
+  \pause
+  
+  \begin{lstlisting}
+    make install DESTDIR=$PKG
+    python setup.py install --root=$PKG
+    gem install --install-dir $PKG/$DESTDIR
+  \end{lstlisting}
+
+  \pause
+
+  \begin{equation*}
+    \xymatrix@C=2pc@R=2pc{
+    Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] &
+    Building\ar@{->>}[r] & Install}
+  \end{equation*}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{The Creation of a Package}
+  \framesubtitle{Performing the usual Slackware Business}
+  \begin{block}{stripping of binaries}
+    After installation of object files/binaries, they need to be stripped off of
+    unnessecary symbols.
+  \end{block}
+  
+  \pause
+
+  \begin{lstlisting}
+  find $PKG -print0 | xargs -0 file \
+  | grep -e "executable" -e "shared object" \
+  | grep ELF | cut -f 1 -d : \
+  | xargs strip --strip-unneeded \
+  2> /dev/null || true
+  
+  \end{lstlisting}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Creation of a Package}
+  \framesubtitle{Performing the usual Slackware Business}
+  
+  \begin{block}{strip and the rest}
+    stripping is one of a few more steps in making a more acceptable package,
+    others include compressing the man and info pages, removing excess data and
+    adding documentation
+  \end{block}
+
+  \pause
+
+  \begin{equation*}
+    \xymatrix@C=2pc@R=2pc{
+    Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] &
+    Building\ar@{->>}[r] & Install\ar@{->>}[dlll]\\
+    strip}
+  \end{equation*}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{The Creation of a Package}
+  \framesubtitle{install directory}
+  \begin{block}{\$PKG/install directory}
+    An extra install directory exist in all Slackware Packages.
+    This folder normally contains two files.
+    \begin{itemize}[<+-| alert@+>]
+    \item slack-desc : This contains a summary and full description of the
+      package.
+    \item doinst.sh : contains instructions for the post installation stage,
+      most of the time linking of files.
+    \end{itemize}
+  \end{block}
+
+  \pause
+
+  \begin{equation*}
+    \xymatrix@C=2pc@R=2pc{
+    \$PKG\/\ar[r]_D\ar[d]_D & install\ar[r]_F\ar[d]_F & slack-desc\\
+    OtherDir  & doinst.sh  }
+  \end{equation*}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{The Creation of a Package}
+  \framesubtitle{install directory}
+  \begin{block}{\$PKG/install directory}
+    Copy the slack-desc and a custom doinst.sh if necessary into ./install
+  \end{block}
+  
+  \pause
+  
+  \begin{lstlisting}
+    mkdir -p $PKG/install
+    
+    cat $CWD/slack-desc > \
+    $PKG/install/slack-desc
+    
+    cat $CWD/doinst.sh > \
+    $PKG/install/doinst.sh
+  \end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{The Creation of a Package}
+  \framesubtitle{Using makepkg}
+  \begin{block}{Makepkg}
+    makepkg creates a Slackware compatible package. The package is constructed
+    using the contents of the current directory and all subdirectories.
+  \end{block}
+  
+  \pause
+  
+  \begin{lstlisting}
+    cd $PKG
+    makepkg $PRGNAM.tgz
   \end{lstlisting}
 \end{frame}
 
 \begin{frame}
-  \begin{example}
-    \begin{itemize}
-    \item 
-    \item 
+  \frametitle{The Creation of a Package}
+  \framesubtitle{makepkg options}
+  \begin{example}{makepkg options}
+    \begin{itemize}[<+-| alert@+>]
+    \item option -l :: add any symbolic links found to the install script
+      (doinst.sh) and delete them.
+    \item option -c :: makepkg will reset all directory permissions to 755 and
+      ownership to root:root
     \end{itemize}
   \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{The Creation of a Package}
+  \framesubtitle{makepkg options}
+  \begin{block}{Makepkg}
+    with makepkg full options
+  \end{block}
+  
+  \begin{lstlisting}
+    /sbin/makepkg \
+    -l y \
+    -c n \
+    /tmp/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.tgz
+  \end{lstlisting}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{}
+  \framesubtitle{}
+  %   \begin{block}
+  %   \begin{example}
+  %     \begin{itemize}[<+-| alert@+>]
+  %     \item
+  %     \item
+  %     \end{itemize}
+  %   \end{example}
+  %   \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{}
+  \framesubtitle{}
+  %   \begin{block}
+  %   \begin{example}
+  %     \begin{itemize}[<+-| alert@+>]
+  %     \item
+  %     \item
+  %     \end{itemize}
+  %   \end{example}
+  %   \end{block}
 \end{frame}
 
 \section{The End}
@@ -195,7 +550,7 @@
   \frametitle{Goal}
   \framesubtitle{A Slacker's goal to world domination}
   \begin{block}{Goal}
-    \begin{itemize}
+    \begin{itemize}[<+-| alert@+>]
     \item slack the hard way
     \item sip some beer
     \item Take over the world
@@ -203,34 +558,35 @@
     \end{itemize}
   \end{block}
 \end{frame}
- 
+
 \begin{frame}
   \frametitle{Resources}
   \framesubtitle{If you want to improve this style}
   \begin{thebibliography}{10}
     \beamertemplatearticlebibitems
-  
+
   \bibitem{beamer-homepage}
     LaTeX Beamer
     \newblock {\tt http://latex-beamer.sourceforge.net/}
-    
+
   \bibitem{kdeslides}
     KDE Presentations
     \newblock {\tt http://www.kde.org/kdeslides/}
-    
+
   \end{thebibliography}
 \end{frame}
 
 \frame{
-  \vspace{2cm}
-         {\huge Questions ?}
-         
-         \vspace{3cm}
-         \begin{flushright}
-           Pritvi Jheengut
-           
-           \structure{\footnotesize{z.coldplayer@gmail.com}}
-         \end{flushright}
+  \vspace{2cm}{
+    \huge Questions ?
+  }
+
+  \vspace{3cm}
+  \begin{flushright}
+    Pritvi Jheengut
+
+    \structure{\footnotesize{z.coldplayer@gmail.com}}
+  \end{flushright}
 }
 
 \end{document}
