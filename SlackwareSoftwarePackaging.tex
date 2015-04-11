@@ -89,11 +89,12 @@
     \begin{itemize}[<+-| alert@+>]
     \item tar
     \item cp/mv/install
-    \item find
+    \item wget/curl
     \item chmod/chown
     \item mktemp/mkdir
     \item strip
-    \item make
+    \item autotools/make/cmake/python/perl/ruby/
+    \item find/xargs/grep
     \end{itemize}
   \end{block}
 \end{frame}
@@ -152,9 +153,9 @@
       installation of files on a system
     \end{description}
   \end{block}
-
+  
   \pause
-
+  
   \begin{columns}
     \begin{column}{4cm}
       \begin{block}{Example}
@@ -165,7 +166,7 @@
         \end{itemize}
       \end{block}
     \end{column}
-
+    
     \begin{column}{4cm}
       \begin{block}{mime}
         \begin{itemize}[<+-| alert@+>]
@@ -191,9 +192,9 @@
     \item<5,7> remove
     \item<6,7> performs other related jobs
     \end{itemize}
-
+    
     \pause
-
+    
     on software packages for a Linux Distribution.
   \end{block}
 \end{frame}
@@ -208,19 +209,21 @@
     mktmp
     cd /tmp/$"The Temporary File Just Created"
   \end{lstlisting}
-
+  
   \pause
-
+  
   \begin{alertblock}{\href{http://unixhelp.ed.ac.uk/CGI/man-cgi?mktemp}{mktmp}}
-    Create temporary files/directoies that are predictable, safe and to avoid
+    Create temporary files/directories that are predictable, safe and to avoid
     possible race conditions.
   \end{alertblock}
-
+  
   \pause
 
   \begin{alertblock}{/tmp}
     The /tmp directory is assumed to cleaned regularly, sometimes assumed a
     tmpfs is mount over tmp
+    
+    The source code is often extracted into /tmp directly.
   \end{alertblock}
 \end{frame}
 
@@ -231,21 +234,21 @@
   \begin{block}{Copy The Source Code}
     Copy the source code archive into the tmp dir
   \end{block}
-
+  
   \pause
-
+  
   \begin{lstlisting}
     cp ${old path}/${source code archive} .
   \end{lstlisting}
-
+  
   \pause
-
+  
   \begin{block}{Download The Source Code}
     Or Download the source code archive into the tmp dir
   \end{block}
-
+  
   \pause
-
+  
   \begin{lstlisting}
     wget/curl
     protocol://url/${source code archive}
@@ -256,31 +259,38 @@
   \frametitle{Populating The Build Directory}
   \framesubtitle{Extracting the source code into The Build Directory}
   \lstset{language=sh}
-
+  
   \pause
-
+  
   \begin{alertblock}{Extracting The Source Code}
     This step is optional
   \end{alertblock}
-
+  
   \pause
-
+  
   \begin{lstlisting}
     mkdir build
     cd build
   \end{lstlisting}
-
+  
   \pause
-
+  
   \begin{block}{Extracting The Source Code}
     Extract files into the `mktmp`/tmp directory
   \end{block}
-
+  
   \pause
-
+  
   \begin{lstlisting}
     tar -xvvf ../"${source code archive}"
   \end{lstlisting}
+
+  \pause
+
+  \begin{equation*}
+    \xymatrix@C=2pc@R=2pc{
+      \//tmp\ar@{->>}[r]_D & \/\$PKG\ar@{->>}[r]_D & \/build}
+  \end{equation*}
 \end{frame}
 
 \section{Building The Source Code}
@@ -301,9 +311,9 @@
       \end{block}
     \end{column}
   \end{columns}
-
+  
   \pause
-
+  
   \begin{columns}
     \begin{column}{5cm}
       \begin{example}{autotools}
@@ -314,7 +324,7 @@
         \end{itemize}
       \end{example}
     \end{column}
-
+    
     \begin{column}{5cm}
       \begin{example}
         \begin{itemize}[<+-| alert@+>]
@@ -331,13 +341,13 @@
 
 \begin{frame}
   \frametitle{Building the Source Code}
-%   \framesubtitle{}
+  %\framesubtitle{}
   \begin{block}{Building the Source Code}
     After configuration, the code has to be compiled into machine code.
   \end{block}
-
+  
   \pause
-
+  
   \begin{example}
     \begin{itemize}[<+-| alert@+>]
     \item make
@@ -352,11 +362,11 @@
   \frametitle{Building the Source Code}
   \framesubtitle{Summary}
   \begin{block}{A Summary}
-      A summary of the job done
+    A summary of the job done
   \end{block}
   \begin{equation*}
     \xymatrix@C=2pc@R=2pc{
-    Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] & Building}
+      Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] & Building}
   \end{equation*}
 \end{frame}
 
@@ -377,13 +387,13 @@
     python setup.py install --root=$PKG
     gem install --install-dir $PKG/$DESTDIR
   \end{lstlisting}
-
+  
   \pause
-
+  
   \begin{equation*}
     \xymatrix@C=2pc@R=2pc{
-    Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] &
-    Building\ar@{->>}[r] & Install}
+      Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] &
+      Building\ar@{->>}[r] & Install}
   \end{equation*}
 \end{frame}
 
@@ -392,18 +402,18 @@
   \framesubtitle{Performing the usual Slackware Business}
   \begin{block}{stripping of binaries}
     After installation of object files/binaries, they need to be stripped off of
-    unnessecary symbols.
+    unnecessary symbols.
   \end{block}
   
   \pause
-
-  \begin{lstlisting}
-  find $PKG -print0 | xargs -0 file \
-  | grep -e "executable" -e "shared object" \
-  | grep ELF | cut -f 1 -d : \
-  | xargs strip --strip-unneeded \
-  2> /dev/null || true
   
+  \begin{lstlisting}
+    find $PKG -print0 | xargs -0 file \
+    | grep -e "executable" -e "shared object" \
+    | grep ELF | cut -f 1 -d : \
+    | xargs strip --strip-unneeded \
+    2> /dev/null || true
+    
   \end{lstlisting}
   
 \end{frame}
@@ -417,16 +427,16 @@
     others include compressing the man and info pages, removing excess data and
     adding documentation
   \end{block}
-
+  
   \pause
-
+  
   \begin{equation*}
     \xymatrix@C=2pc@R=2pc{
-    Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] &
-    Building\ar@{->>}[r] & Install\ar@{->>}[dlll]\\
-    strip}
+      Pre-Conf\ar@{->}[r] & Conf\ar@{->>}[r] &
+      Build\ar@{->>}[r] & Install\ar@{->>}[d]\\
+      & Doc & CleanUP\ar@{->>}[l] & Strip\ar@{->>}[l]}
   \end{equation*}
-
+  
 \end{frame}
 
 \begin{frame}[fragile]
@@ -444,11 +454,11 @@
   \end{block}
 
   \pause
-
+  
   \begin{equation*}
     \xymatrix@C=2pc@R=2pc{
-    \$PKG\/\ar[r]_D\ar[d]_D & install\ar[r]_F\ar[d]_F & slack-desc\\
-    OtherDir  & doinst.sh  }
+      \$PKG\/\ar[r]_D\ar[d]_D & install\ar[r]_F\ar[d]_F & slack-desc\\
+      OtherDir  & doinst.sh  }
   \end{equation*}
 \end{frame}
 
@@ -478,7 +488,7 @@
   \framesubtitle{Using makepkg}
   \begin{block}{Makepkg}
     makepkg creates a Slackware compatible package. The package is constructed
-    using the contents of the current directory and all subdirectories.
+    using the contents of the current directory and all sub directories.
   \end{block}
   
   \pause
@@ -515,33 +525,63 @@
     -c n \
     /tmp/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.tgz
   \end{lstlisting}
+  
+  \pause
+
+  \begin{block}{Package}
+    This is it, your package is ready and waiting for you in /tmp.
+  \end{block}
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{}
-  \framesubtitle{}
-  %   \begin{block}
-  %   \begin{example}
-  %     \begin{itemize}[<+-| alert@+>]
-  %     \item
-  %     \item
-  %     \end{itemize}
-  %   \end{example}
-  %   \end{block}
+\begin{frame}[fragile]
+  \frametitle{Slackbuilds}
+  \framesubtitle{Scripting}
+  \begin{block}{Slackbuilds}
+    Want to Automate your package building, then the only sane way is
+    maintaining a script that we commonly call slackbuild script.
+    All the steps above are entered into a script and tada, its done.
+  \end{block}
+
+  \pause
+
+  \begin{lstlisting}
+    #!/bin/bash
+    PKG=/tmp/package-$PRGNAM
+    rm -rf $PKG
+    mkdir -p $TMP $PKG
+    cd /tmp
+    rm -rf $PRGNAM-$VERSION
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Slackbuilds}
+  \framesubtitle{Scripting - continued}
+
+  \begin{lstlisting}
+    tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
+    cd $PRGNAM-$VERSION
+    chown -R root:root .
+    ./configure
+    make
+    make install DESTDIR=$PKG
+    find ... | xargs strip ...
+    mkdir -p $PKG/install
+    cat $CWD/slack-desc > $PKG/install/slack-desc
+    cat $CWD/doinst.sh > $PKG/install/doinst.sh
+    cd $PKG
+    /sbin/makepkg /tmp/$PRGNAM.tgz
+  \end{lstlisting}
 \end{frame}
 
 \begin{frame}
-  \frametitle{}
-  \framesubtitle{}
-  %   \begin{block}
-  %   \begin{example}
-  %     \begin{itemize}[<+-| alert@+>]
-  %     \item
-  %     \item
-  %     \end{itemize}
-  %   \end{example}
-  %   \end{block}
+  \frametitle{Slackbuilds}
+  \framesubtitle{slackbuilds.org}
+    \begin{block}{slackbuilds.org}
+      Templates can be found at
+      http://slackbuilds.org/templates
+    \end{block}
 \end{frame}
 
 \section{The End}
@@ -572,6 +612,11 @@
   \bibitem{kdeslides}
     KDE Presentations
     \newblock {\tt http://www.kde.org/kdeslides/}
+
+  \bibitem{My Prezz}
+    My Prezz at Github
+    \newblock {\tt https://github.com/Bluetailedgecko/\\
+    Slackware-Software-Packaging-Presentation}
 
   \end{thebibliography}
 \end{frame}
