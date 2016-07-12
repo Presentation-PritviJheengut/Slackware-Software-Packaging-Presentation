@@ -43,6 +43,12 @@
   }
 }
 
+\newcommand<>{\highlighton}[1]{%
+  \alt#2{\structure{#1}}{{#1}}
+}
+
+\newcommand{\icon}[1]{\pgfimage[height=1em]{#1}
+
 \frame{\titlepage}
 
 \begin{frame}
@@ -64,12 +70,7 @@ USA.
   \framesubtitle{Table of Contents}
   \tableofcontents[hidesubsections]
 \end{frame}
-
-\newcommand<>{\highlighton}[1]{%
-  \alt#2{\structure{#1}}{{#1}}
 }
-
-\newcommand{\icon}[1]{\pgfimage[height=1em]{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Content starts here %%%%%%%%%%
