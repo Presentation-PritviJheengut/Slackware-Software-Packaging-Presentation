@@ -1,0 +1,74 @@
+\usetheme{Rochester}
+
+\RequirePackage{pgf}
+
+\pgfdeclareimage[width=1.0\paperwidth]{Rodrigues-header}{Rodrigues-header}
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamercovered{transparent}
+
+\beamer@headheight=0.15\paperwidth
+
+\definecolor{rodorange}{HTML}{F04F02}
+\definecolor{ncurses}{HTML}{4FEFEF}
+\definecolor{darkblue}{HTML}{064F6F}
+\definecolor{lightblue}{HTML}{0099C5}
+\definecolor{gray}{HTML}{686868}
+\definecolor{lightgray}{HTML}{eeeeee}
+\definecolor{blue}{HTML}{4169E1}
+\setbeamercolor{background canvas}{bg=ncurses}
+\setbeamercolor*{Title bar}{fg=darkblue}
+\setbeamercolor*{Location bar}{fg=rodorange,bg=lightgray}
+\setbeamercolor*{frametitle}{parent=Title bar}
+\setbeamercolor*{block title}{bg=lightblue,fg=white}
+\setbeamercolor*{block body}{bg=lightgray,fg=gray}
+\setbeamercolor*{normal text}{bg=lightgray,fg=black}
+\setbeamercolor*{section in head/foot}{bg=blue,fg=darkblue}
+
+\usecolortheme[named=rodorange]{structure}
+
+\setbeamerfont{section in head/foot}{size=\normalfont,series=\normalfont}
+\setbeamerfont{frametitle}{size=\Large}
+
+% \setbeamertemplate{headline} %%doing nothing but spitting a lot of errors
+\setbeamertemplate{frametitle}
+{
+%   \vskip-0.25\beamer@headheight
+  \vskip-\baselineskip
+  \vskip-0.2cm
+  \hskip0.8cm\usebeamerfont*{frametitle}\insertframetitle
+  \vskip-0.10em
+  \hskip0.8cm\usebeamerfont*{framesubtitle}\insertframesubtitle
+}
+
+\setbeamertemplate{headline}
+{
+  \pgfuseimage{Rodrigues-header}	%define the header background image
+  \vskip -2cm				%reset vertical size to match slide
+  \linethickness{-0.5pt}		%
+% %
+%   \framelatex{
+%   \begin{beamercolorbox}[wd=\paperwidth,ht=0.3\beamer@headheight]{Title bar}
+%     \usebeamerfont{section in head/foot}%
+%     \insertsectionnavigationhorizontal{0pt}{\hskip0.22cm}{}%
+%   \end{beamercolorbox}}
+
+  \framelatex{
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.7\beamer@headheight]{Title bar}
+  \end{beamercolorbox}}
+}
+
+\setbeamertemplate{footline}
+{
+  \linethickness{0.25pt}
+  \framelatex{
+  \begin{beamercolorbox}[leftskip=.3cm,wd=\paperwidth,ht=0.3\beamer@headheight,sep=0.1cm]{Location bar}
+    \usebeamerfont{section in head/foot}%
+    \insertshortauthor~|~\insertshorttitle
+    \hfill
+    \insertframenumber/\inserttotalframenumber
+  \end{beamercolorbox}}
+}
+
+\lstdefinestyle{numbers} {numbers=left, stepnumber=1, numberstyle=\tiny, 
+numbersep=8pt}
