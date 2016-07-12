@@ -223,7 +223,7 @@ USA.
   \lstset{language=sh}
   \begin{lstlisting}
     mktmp
-    cd /tmp/$"The Temporary File Just Created"
+    cd /tmp/$"Temporary Directory"
   \end{lstlisting}
   
   \pause
@@ -289,7 +289,14 @@ USA.
     cd build
   \end{lstlisting}
   
-  \pause
+  
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Populating The Build Directory}
+  \framesubtitle{Extracting the source code into The Build Directory}
+  \lstset{language=sh}  
+  
   
   \begin{block}{Extracting The Source Code}
     Extract files into the `mktmp`/tmp directory
@@ -401,15 +408,27 @@ USA.
   \begin{lstlisting}
     make install DESTDIR=$PKG
     python setup.py install --root=$PKG
-    gem install --install-dir $PKG/$DESTDIR
+    gem install --install-dir \
+      $PKG/$DESTDIR
   \end{lstlisting}
   
-  \pause
+  
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{The Creation of a Package}
+  \framesubtitle{Populating the package directory}
+  \begin{block}{Installation of Package Files in tmp directory}
+    The package files are installed in a directory using the
+    $PKG=\$TMP/package-\$PRGNAM$ shell path parameter.
+  \end{block}
+
   
   \begin{equation*}
     \xymatrix@C=2pc@R=2pc{
-      Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] &
-      Building\ar@{->>}[r] & Install}
+      Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[d] & \\
+      Install & Building\ar@{->>}[l]}
   \end{equation*}
 \end{frame}
 
@@ -425,7 +444,8 @@ USA.
   
   \begin{lstlisting}
     find $PKG -print0 | xargs -0 file \
-    | grep -e "executable" -e "shared object" \
+    | grep -e "executable" \
+      -e "shared object" \
     | grep ELF | cut -f 1 -d : \
     | xargs strip --strip-unneeded \
     2> /dev/null || true
@@ -539,7 +559,8 @@ USA.
     /sbin/makepkg \
     -l y \
     -c n \
-    /tmp/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.tgz
+    /tmp/$PRGNAM-$VERSION-\
+    $ARCH-$BUILD$TAG.tgz
   \end{lstlisting}
   
   \pause
@@ -582,10 +603,20 @@ USA.
     ./configure
     make
     make install DESTDIR=$PKG
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Slackbuilds}
+  \framesubtitle{Scripting - continued}
+
+  \begin{lstlisting}
     find ... | xargs strip ...
     mkdir -p $PKG/install
-    cat $CWD/slack-desc > $PKG/install/slack-desc
-    cat $CWD/doinst.sh > $PKG/install/doinst.sh
+    cat $CWD/slack-desc > \
+      $PKG/install/slack-desc
+    cat $CWD/doinst.sh > \
+      $PKG/install/doinst.sh
     cd $PKG
     /sbin/makepkg /tmp/$PRGNAM.tgz
   \end{lstlisting}
