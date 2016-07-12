@@ -25,9 +25,23 @@
 
 \usetheme{Rodrigues}
 
-\mode<presentation>{}
+% \mode<presentation>{}
 
 \begin{document}
+
+\AtBeginSection[]{
+  \frame<handout:0>{
+    \frametitle{Outline}
+    \tableofcontents[currentsection,hideallsubsections]
+  }
+}
+
+\AtBeginSubsection[]{
+  \frame<handout:0>{
+    \frametitle{Outline}
+    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+  }
+}
 
 \frame{\titlepage}
 
@@ -50,20 +64,6 @@ USA.
   \framesubtitle{Table of Contents}
   \tableofcontents[hidesubsections]
 \end{frame}
-
-\AtBeginSection[]{
-  \frame<handout:0>{
-    \frametitle{Outline}
-    \tableofcontents[currentsection,hideallsubsections]
-  }
-}
-
-\AtBeginSubsection[]{
-  \frame<handout:0>{
-    \frametitle{Outline}
-    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
-  }
-}
 
 \newcommand<>{\highlighton}[1]{%
   \alt#2{\structure{#1}}{{#1}}
