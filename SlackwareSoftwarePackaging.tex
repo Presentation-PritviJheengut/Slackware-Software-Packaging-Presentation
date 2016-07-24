@@ -58,20 +58,24 @@
 % 
 % \newcommand{\icon}[1]{\pgfimage[height=1em]{#1}
 
-\lstset{language=sh,basicstyle=\footnotesize}
+\lstset{language=sh,
+  basicstyle=\footnotesize
+}
 
 \frame{\titlepage}
 
 \begin{frame}
-This work is licensed under the Creative Commons Attribution 4.0 International 
-License. To view a copy of this license, visit \href{
-http://creativecommons.org/licenses/by/4.0/} or
-send a letter to
-Creative Commons, 
-PO Box 1866,
-Mountain View, 
-CA 94042,
-USA.
+
+  This work is licensed under the Creative Commons Attribution 4.0 
+  International License. To view a copy of this license, visit 
+  \href{http://creativecommons.org/licenses/by/4.0/} or
+  send a letter to
+  Creative Commons, 
+  PO Box 1866,
+  Mountain View, 
+  CA 94042,
+  USA.
+  
 \end{frame}
 
 \section*{tableofcontent}
@@ -91,15 +95,16 @@ USA.
 \begin{frame}
   \frametitle{Prerequisites}
   \framesubtitle{The Shell and Coreutils}
+  
   \begin{block}{Shell}
     \begin{itemize}[<+-| alert@+>]
     \item Some basic shell programming skills
     \item GNU Coreutils
     \end{itemize}
   \end{block}
-
+  
   \pause
-
+  
   \begin{example}{GNU Coreutils}
     \begin{itemize}[<+-| alert@+>]
     \item mkdir
@@ -107,11 +112,13 @@ USA.
     \item ls
     \end{itemize}
   \end{example}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Prerequisites}
   \framesubtitle{Packaging tools}
+  
   \begin{block}{Unix}
     \begin{itemize}[<+-| alert@+>]
     \item tar
@@ -124,11 +131,13 @@ USA.
     \item find/xargs/grep
     \end{itemize}
   \end{block}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Prerequisites}
   \framesubtitle{Compression Utilities}
+  
   \begin{columns}
     \begin{column}{4cm}
       \begin{block}{Compression Utility}
@@ -150,11 +159,13 @@ USA.
       \end{block}
     \end{column}
   \end{columns}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Prerequisites}
   \framesubtitle{Slackware Basic tools}
+  
   \begin{block}{Slackware}
     \begin{itemize}[<+-| alert@+>]
     \item<1-7> pkgtool - The Package Manager
@@ -167,6 +178,7 @@ USA.
     \item<8-> slackbuild scripting
     \end{itemize}
   \end{block}
+  
 \end{frame}
 
 \section{What is a Package?}
@@ -174,6 +186,7 @@ USA.
 \begin{frame}
   \frametitle{Definition of a package}
   \framesubtitle{A Slacker's goal to world domination}
+  
   \begin{block}{A Package}
     \begin{description}
     \item[Definition:] An archive format with/out instructions used for the
@@ -205,15 +218,17 @@ USA.
       \end{block}
     \end{column}
   \end{columns}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Package Manager}
   \framesubtitle{How to install Packages}
+  
   \begin{block}{Package Manager}
     A package manager is a collection of software tools that
     \begin{itemize}[<+-| alert@+>]
-    \item<2,7>install
+    \item<2,7> install
     \item<3,7> upgrade
     \item<4,7> configure
     \item<5,7> remove
@@ -224,6 +239,7 @@ USA.
     
     on software packages for a Linux Distribution.
   \end{block}
+  
 \end{frame}
 
 \section{Preparation For Building}
@@ -231,7 +247,7 @@ USA.
 \begin{frame}[fragile]
   \frametitle{Prepare The Build Directory}
   \framesubtitle{Sanitize The Build Directory}
-  \lstset{language=sh}
+
   \begin{lstlisting}
     mktmp
     cd /tmp/$"Temporary Directory"
@@ -245,18 +261,20 @@ USA.
   \end{alertblock}
   
   \pause
-
+  
   \begin{alertblock}{/tmp}
     The /tmp directory is assumed to cleaned regularly, sometimes assumed a
     tmpfs is mount over tmp
     
     The source code is often extracted into /tmp directly.
   \end{alertblock}
+  
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Prepare The Build Directory}
   \framesubtitle{Putting The Source Code in /tmp}
+  
   \begin{block}{Copy The Source Code}
     Copy the source code archive into the tmp dir
   \end{block}
@@ -279,12 +297,12 @@ USA.
     wget/curl
     protocol://url/${source code archive}
   \end{lstlisting}
+  
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Populating The Build Directory}
   \framesubtitle{Extracting the source code into The Build Directory}
-  \lstset{language=sh}
   
   \pause
   
@@ -299,15 +317,12 @@ USA.
     cd build
   \end{lstlisting}
   
-  
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Populating The Build Directory}
   \framesubtitle{Extracting the source code into The Build Directory}
-  \lstset{language=sh}  
-  
-  
+    
   \begin{block}{Extracting The Source Code}
     Extract files into the `mktmp`/tmp directory
   \end{block}
@@ -317,13 +332,14 @@ USA.
   \begin{lstlisting}
     tar -xvvf ../"${source code archive}"
   \end{lstlisting}
-
+  
   \pause
-
+  
   \begin{equation*}
     \xymatrix@C=2pc@R=2pc{
       \//tmp\ar@{->>}[r]_D & \/\$PKG\ar@{->>}[r]_D & \/build}
   \end{equation*}
+  
 \end{frame}
 
 \section{Building The Source Code}
@@ -331,6 +347,7 @@ USA.
 \begin{frame}
   \frametitle{Configuration of the source code}
   \framesubtitle{Pre-Configuration and Configuration}
+  
   \begin{columns}
     \begin{column}{5cm}
       \begin{block}{pre-configuration}
@@ -369,12 +386,14 @@ USA.
         \end{itemize}
       \end{example}
     \end{column}
-  \end{columns}
+  \end{columns}  \lstset{language=sh}  
+
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Building the Source Code}
-  %\framesubtitle{}
+  
   \begin{block}{Building the Source Code}
     After configuration, the code has to be compiled into machine code.
   \end{block}
@@ -389,11 +408,13 @@ USA.
     \item python setup.py build
     \end{itemize}
   \end{example}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Building the Source Code}
   \framesubtitle{Summary}
+  
   \begin{block}{A Summary}
     A summary of the job done
   \end{block}
@@ -401,6 +422,7 @@ USA.
     \xymatrix@C=2pc@R=2pc{
       Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[r] & Building}
   \end{equation*}
+  
 \end{frame}
 
 \section{Creating The Package}
@@ -408,6 +430,7 @@ USA.
 \begin{frame}[fragile]
   \frametitle{The Creation of a Package}
   \framesubtitle{Populating the package directory}
+  
   \begin{block}{Installation of Package Files in tmp directory}
     The package files are installed in a directory using the
     $PKG=\$TMP/package-\$PRGNAM$ shell path parameter.
@@ -421,29 +444,29 @@ USA.
     gem install --install-dir $PKG/$DESTDIR
   \end{lstlisting}
   
-  
 \end{frame}
-
 
 \begin{frame}[fragile]
   \frametitle{The Creation of a Package}
   \framesubtitle{Populating the package directory}
+  
   \begin{block}{Installation of Package Files in tmp directory}
     The package files are installed in a directory using the
     $PKG=\$TMP/package-\$PRGNAM$ shell path parameter.
   \end{block}
 
-  
   \begin{equation*}
     \xymatrix@C=2pc@R=2pc{
       Pre-Configuration\ar@{->>}[r] & Configuration\ar@{->>}[d] & \\
       Install & Building\ar@{->>}[l]}
   \end{equation*}
+  
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{The Creation of a Package}
   \framesubtitle{Performing the usual Slackware Business}
+  
   \begin{block}{stripping of binaries}
     After installation of object files/binaries, they need to be stripped off of
     unnecessary symbols.
@@ -458,7 +481,6 @@ USA.
     | cut -f 1 -d : \
     | xargs strip --strip-unneeded \
     2> /dev/null || true
-    
   \end{lstlisting}
   
 \end{frame}
@@ -487,17 +509,20 @@ USA.
 \begin{frame}[fragile]
   \frametitle{The Creation of a Package}
   \framesubtitle{install directory}
+
   \begin{block}{\$PKG/install directory}
     An extra install directory exist in all Slackware Packages.
     This folder normally contains two files.
+
     \begin{itemize}[<+-| alert@+>]
     \item slack-desc : This contains a summary and full description of the
       package.
     \item doinst.sh : contains instructions for the post installation stage,
       most of the time linking of files.
     \end{itemize}
-  \end{block}
 
+  \end{block}
+  
   \pause
   
   \begin{equation*}
@@ -505,11 +530,13 @@ USA.
       \$PKG\/\ar[r]_D\ar[d]_D & install\ar[r]_F\ar[d]_F & slack-desc\\
       OtherDir  & doinst.sh  }
   \end{equation*}
+  
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{The Creation of a Package}
   \framesubtitle{install directory}
+  
   \begin{block}{\$PKG/install directory}
     Copy the slack-desc and a custom doinst.sh if necessary into ./install
   \end{block}
@@ -523,12 +550,13 @@ USA.
     
     cat $CWD/doinst.sh > $PKG/install/doinst.sh
   \end{lstlisting}
+  
 \end{frame}
-
 
 \begin{frame}[fragile]
   \frametitle{The Creation of a Package}
   \framesubtitle{Using makepkg}
+  
   \begin{block}{Makepkg}
     makepkg creates a Slackware compatible package. The package is constructed
     using the contents of the current directory and all sub directories.
@@ -540,11 +568,13 @@ USA.
     cd $PKG
     makepkg $PRGNAM.tgz
   \end{lstlisting}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{The Creation of a Package}
   \framesubtitle{makepkg options}
+  
   \begin{example}{makepkg options}
     \begin{itemize}[<+-| alert@+>]
     \item option -l :: add any symbolic links found to the install script
@@ -553,11 +583,13 @@ USA.
       ownership to root:root
     \end{itemize}
   \end{example}
+  
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{The Creation of a Package}
   \framesubtitle{makepkg options}
+  
   \begin{block}{Makepkg}
     with makepkg full options
   \end{block}
@@ -568,38 +600,42 @@ USA.
   \end{lstlisting}
   
   \pause
-
+  
   \begin{block}{Package}
     This is it, your package is ready and waiting for you in /tmp.
   \end{block}
+  
 \end{frame}
-
 
 \begin{frame}[fragile]
   \frametitle{Slackbuilds}
   \framesubtitle{Scripting}
+  
   \begin{block}{Slackbuilds}
     Want to Automate your package building, then the only sane way is
     maintaining a script that we commonly call slackbuild script.
     All the steps above are entered into a script and tada, its done.
   \end{block}
-
+  
   \pause
-
+  
   \begin{lstlisting}
     #!/bin/bash
+    
     PKG=/tmp/package-$PRGNAM
+    
     rm -rf $PKG
     mkdir -p $TMP $PKG
     cd /tmp
     rm -rf $PRGNAM-$VERSION
   \end{lstlisting}
+  
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Slackbuilds}
   \framesubtitle{Scripting - continued}
-
+  
   \begin{lstlisting}
     tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
     cd $PRGNAM-$VERSION
@@ -611,6 +647,7 @@ USA.
     make
     make install DESTDIR=$PKG
   \end{lstlisting}
+  
 \end{frame}
 
 \begin{frame}[fragile]
@@ -628,15 +665,18 @@ USA.
     
     /sbin/makepkg /tmp/$PRGNAM.tgz
   \end{lstlisting}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Slackbuilds}
   \framesubtitle{slackbuilds.org}
+
     \begin{block}{slackbuilds.org}
       Templates can be found at
       http://slackbuilds.org/templates
     \end{block}
+
 \end{frame}
 
 \section{The End}
@@ -644,6 +684,7 @@ USA.
 \begin{frame}
   \frametitle{Goal}
   \framesubtitle{A Slacker's goal to world domination}
+  
   \begin{block}{Goal}
     \begin{itemize}[<+-| alert@+>]
     \item slack the hard way
@@ -652,41 +693,46 @@ USA.
     \item Relax...
     \end{itemize}
   \end{block}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Resources}
   \framesubtitle{If you want to improve this style}
+  
   \begin{thebibliography}{10}
     \beamertemplatearticlebibitems
 
   \bibitem{beamer-homepage}
     LaTeX Beamer
     \newblock {\tt http://latex-beamer.sourceforge.net/}
-
+    
   \bibitem{kdeslides}
     KDE Presentations
     \newblock {\tt http://www.kde.org/kdeslides/}
-
+    
   \bibitem{My Prezz}
     My Prezz at Github
     \newblock {\tt https://github.com/Bluetailedgecko/\\
     Slackware-Software-Packaging-Presentation}
-
+    
   \end{thebibliography}
+
 \end{frame}
 
-\frame{
+\begin{frame}
+
   \vspace{2cm}{
     \huge Questions ?
   }
-
+  
   \vspace{3cm}
   \begin{flushright}
     Pritvi Jheengut
-
+    
     \structure{\footnotesize{z.coldplayer@gmail.com}}
   \end{flushright}
-}
+
+\end{frame}
 
 \end{document}
