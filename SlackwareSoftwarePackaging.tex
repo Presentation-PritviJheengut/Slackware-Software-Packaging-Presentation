@@ -1,4 +1,4 @@
-\documentclass[12pt,hyperref={pdfpagelabels=true}]{beamer}
+\documentclass[1pt,hyperref={pdfpagelabels=true}]{beamer}
 
 %% License to be introduced
 
@@ -97,7 +97,7 @@
   \framesubtitle{The Shell and Coreutils}
   
   \begin{block}{Shell}
-    \begin{itemize}[<+-| alert@+>]
+    \begin{itemize}
     \item Some basic shell programming skills
     \item GNU Coreutils
     \end{itemize}
@@ -232,12 +232,12 @@
     \item<3,7> upgrade
     \item<4,7> configure
     \item<5,7> remove
-    \item<6,7> performs other related jobs
+    \item<6,7> performs other related jobs on
     \end{itemize}
     
     \pause
     
-    on software packages for a Linux Distribution.
+    software packages for a Linux Distribution.
   \end{block}
   
 \end{frame}
@@ -250,17 +250,18 @@
 
   \begin{lstlisting}
     mktmp
-    cd /tmp/$"Temporary Directory"
   \end{lstlisting}
-  
-  \pause
-  
+   
   \begin{alertblock}{\href{http://unixhelp.ed.ac.uk/CGI/man-cgi?mktemp}{mktmp}}
     Create temporary files/directories that are predictable, safe and to avoid
     possible race conditions.
   \end{alertblock}
   
   \pause
+  
+  \begin{lstlisting}
+    cd /tmp/$"Temporary Directory"
+  \end{lstlisting}
   
   \begin{alertblock}{/tmp}
     The /tmp directory is assumed to cleaned regularly, sometimes assumed a
