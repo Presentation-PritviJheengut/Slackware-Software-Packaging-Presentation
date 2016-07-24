@@ -58,6 +58,8 @@
 % 
 % \newcommand{\icon}[1]{\pgfimage[height=1em]{#1}
 
+\lstset{language=sh,basicstyle=\footnotesize}
+
 \frame{\titlepage}
 
 \begin{frame}
@@ -255,7 +257,6 @@ USA.
 \begin{frame}[fragile]
   \frametitle{Prepare The Build Directory}
   \framesubtitle{Putting The Source Code in /tmp}
-  \lstset{language=sh}
   \begin{block}{Copy The Source Code}
     Copy the source code archive into the tmp dir
   \end{block}
@@ -417,8 +418,7 @@ USA.
   \begin{lstlisting}
     make install DESTDIR=$PKG
     python setup.py install --root=$PKG
-    gem install --install-dir \
-      $PKG/$DESTDIR
+    gem install --install-dir $PKG/$DESTDIR
   \end{lstlisting}
   
   
@@ -453,9 +453,9 @@ USA.
   
   \begin{lstlisting}
     find $PKG -print0 | xargs -0 file \
-    | grep -e "executable" \
-      -e "shared object" \
-    | grep ELF | cut -f 1 -d : \
+    | grep -e "executable" -e "shared object" \
+    | grep ELF \
+    | cut -f 1 -d : \
     | xargs strip --strip-unneeded \
     2> /dev/null || true
     
@@ -519,11 +519,9 @@ USA.
   \begin{lstlisting}
     mkdir -p $PKG/install
     
-    cat $CWD/slack-desc > \
-    $PKG/install/slack-desc
+    cat $CWD/slack-desc > $PKG/install/slack-desc
     
-    cat $CWD/doinst.sh > \
-    $PKG/install/doinst.sh
+    cat $CWD/doinst.sh > $PKG/install/doinst.sh
   \end{lstlisting}
 \end{frame}
 
@@ -565,11 +563,8 @@ USA.
   \end{block}
   
   \begin{lstlisting}
-    /sbin/makepkg \
-    -l y \
-    -c n \
-    /tmp/$PRGNAM-$VERSION-\
-    $ARCH-$BUILD$TAG.tgz
+    /sbin/makepkg -l y -c n \
+    /tmp/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.tgz
   \end{lstlisting}
   
   \pause
@@ -608,8 +603,11 @@ USA.
   \begin{lstlisting}
     tar xvf $CWD/$PRGNAM-$VERSION.tar.gz
     cd $PRGNAM-$VERSION
+    
     chown -R root:root .
+    
     ./configure
+    
     make
     make install DESTDIR=$PKG
   \end{lstlisting}
@@ -622,11 +620,12 @@ USA.
   \begin{lstlisting}
     find ... | xargs strip ...
     mkdir -p $PKG/install
-    cat $CWD/slack-desc > \
-      $PKG/install/slack-desc
-    cat $CWD/doinst.sh > \
-      $PKG/install/doinst.sh
+    
+    cat $CWD/slack-desc > $PKG/install/slack-desc
+    cat $CWD/doinst.sh > $PKG/install/doinst.sh
+    
     cd $PKG
+    
     /sbin/makepkg /tmp/$PRGNAM.tgz
   \end{lstlisting}
 \end{frame}
